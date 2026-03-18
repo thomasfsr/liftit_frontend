@@ -28,20 +28,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await authClient.signOut();
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        session,
-        isPending,
-        signIn: authClient.signIn.email,
-        signUp: authClient.signUp.email,
-        signInWithGoogle,
-        signOut,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    session,
+    isPending,
+    signIn: authClient.signIn.email,
+    signUp: authClient.signUp.email,
+    signInWithGoogle,
+    signOut,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

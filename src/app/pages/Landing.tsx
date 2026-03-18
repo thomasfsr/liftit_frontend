@@ -1,4 +1,6 @@
+import { Link } from "react-router";
+
 function Landing() {
-  return <div> Hello Priscila </div>;
+  return <Link to="/signin"> sign-in </Link>;
 }
 export default Landing;
