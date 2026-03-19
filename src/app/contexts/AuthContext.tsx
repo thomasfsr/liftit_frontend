@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { authClient } from "@/lib/auth-client";
 
-// Better-Auth provides the types for us!
 type Session = typeof authClient.$Infer.Session;
 
 interface AuthContextType {
