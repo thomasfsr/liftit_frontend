@@ -1,5 +1,6 @@
 import { authClient } from "@/lib/auth-client";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import z from "zod";
 const signInSchema = z.object({
   email: z.email("Give a valid email."),
@@ -8,13 +9,10 @@ const signInSchema = z.object({
 
 type SignInSchema = z.infer<typeof signInSchema>;
 
-function EmailSignInForm() {
-  const [form, setForm] = useState<SignInSchema>({
-    email: "",
-    password: "",
-  });
+function SignInForm() {
+  const { register, handleSubmit, formState } = useForm<SignInSchema>();
 
-  async function handleEmailSignIn({ email, password }: SignInSchema) {
+  async function handleSignIn({ email, password }: SignInSchema) {
     await authClient.signIn.email({
       email,
       password,
@@ -24,25 +22,25 @@ function EmailSignInForm() {
 
   return (
     <div>
-      <form onSubmit={handleEmailSignIn}>
+      <form onSubmit={handleSubmit(handleSignIn)}>
         <input
+          required
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          {...register("email")}
         />
         <input
+          required
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          {...register("password")}
         />
-        <button type="submit">Sign In</button>
+        <button type="submit" disabled={formState.isSubmitting}>
+          Sign In
+        </button>
       </form>
     </div>
   );
 }
 
-export default EmailSignInForm;
+export default SignInForm;
