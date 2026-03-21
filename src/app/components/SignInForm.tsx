@@ -1,4 +1,5 @@
 import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
 import z from "zod";
 const signInSchema = z.object({
   email: z.email("Give a valid email."),
@@ -8,6 +9,11 @@ const signInSchema = z.object({
 type SignInSchema = z.infer<typeof signInSchema>;
 
 function EmailSignInForm() {
+  const [form, setForm] = useState<SignInSchema>({
+    email: "",
+    password: "",
+  });
+
   async function handleEmailSignIn({ email, password }: SignInSchema) {
     await authClient.signIn.email({
       email,
