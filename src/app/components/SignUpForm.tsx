@@ -1,5 +1,6 @@
 import { authClient } from "@/lib/auth-client";
 import { useForm } from "react-hook-form";
+import signupIcon from "@/assets/signup.svg";
 
 import z from "zod";
 const signUpSchema = z.object({
@@ -58,6 +59,7 @@ function SignUpForm() {
           {...register("password")}
         />
         <button type="submit" disabled={formState.isSubmitting}>
+          <img src={signupIcon} style={{ width: 20, marginRight: 8 }} />
           Sign Up
         </button>
       </form>

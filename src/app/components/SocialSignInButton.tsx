@@ -1,5 +1,6 @@
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
+import googleIcon from "@/assets/google.svg";
 
 function SocialSignInButton() {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,11 @@ function SocialSignInButton() {
   return (
     <div>
       <button onClick={handleSignIn} disabled={loading}>
+        <img
+          src={googleIcon}
+          alt="Google"
+          style={{ width: 20, marginRight: 8 }}
+        />
         {loading ? "Redirecting..." : "Sign In with Google"}
       </button>
     </div>
