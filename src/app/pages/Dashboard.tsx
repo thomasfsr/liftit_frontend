@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { authClient } from "@/lib/auth-client";
-import SignOutButton from "../components/signOutButton";
+import SignOutButton from "../components/SignOutButton";
 
 function Dashboard() {
   const navigate = useNavigate();

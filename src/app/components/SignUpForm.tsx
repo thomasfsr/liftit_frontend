@@ -13,7 +13,8 @@ const signUpSchema = z.object({
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
 function SignUpForm() {
-  const { register, handleSubmit, formState } = useForm<SignUpSchema>();
+  const { register, handleSubmit, formState, setError } =
+    useForm<SignUpSchema>();
 
   async function handleSignUp({
     firstName,
@@ -21,12 +22,26 @@ function SignUpForm() {
     email,
     password,
   }: SignUpSchema) {
-    await authClient.signUp.email({
-      name: "${firstName} + ${lastName}",
+    const res = await authClient.signUp.email({
+      name: `${firstName} ${lastName}`,
       email,
       password,
       callbackURL: "http://localhost:5173/dashboard",
     });
+
+    if (res?.error) {
+      if (res.error.code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") {
+        setError("email", {
+          type: "manual",
+          message: "This email is already registered.",
+        });
+      } else {
+        setError("root", {
+          type: "manual",
+          message: res.error.message || "Something went wrong.",
+        });
+      }
+    }
   }
 
   return (
@@ -52,6 +67,9 @@ function SignUpForm() {
           placeholder="Email"
           {...register("email")}
         />
+        {formState.errors.email && (
+          <p style={{ color: "red" }}>{formState.errors.email.message}</p>
+        )}
         <input
           required
           type="password"
