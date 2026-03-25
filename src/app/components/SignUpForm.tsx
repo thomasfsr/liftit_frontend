@@ -8,6 +8,7 @@ const signUpSchema = z.object({
   lastName: z.string("Give a valid name").min(3).max(50),
   email: z.email("Give a valid email."),
   password: z.string().min(6, "At least 6 characters."),
+  phone: z.string().min(10, "At least 10 characters."),
 });
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
@@ -21,11 +22,15 @@ function SignUpForm() {
     lastName,
     email,
     password,
+    phone,
   }: SignUpSchema) {
     const res = await authClient.signUp.email({
       name: `${firstName} ${lastName}`,
-      email,
-      password,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      password: password,
       callbackURL: "http://localhost:5173/dashboard",
     });
 
@@ -63,8 +68,14 @@ function SignUpForm() {
 
         <input
           required
+          type="tel"
+          placeholder="11991234567"
+          {...register("phone")}
+        />
+        <input
+          required
           type="email"
-          placeholder="Email"
+          placeholder="email"
           {...register("email")}
         />
         {formState.errors.email && (
