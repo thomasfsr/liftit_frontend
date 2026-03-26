@@ -7,8 +7,11 @@ const signUpSchema = z.object({
   firstName: z.string("Give a valid name.").min(3).max(50),
   lastName: z.string("Give a valid name").min(3).max(50),
   email: z.email("Give a valid email."),
-  password: z.string().min(6, "At least 6 characters."),
-  phone: z.string().min(10, "At least 10 characters."),
+  password: z.string().min(8, "At least 8 characters."),
+  phone: z
+    .string()
+    .min(10, "At least 10 characters.")
+    .max(11, "At most 11 characters."),
 });
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
@@ -70,6 +73,8 @@ function SignUpForm() {
           required
           type="tel"
           placeholder="11991234567"
+          maxLength={11}
+          minLength={10}
           {...register("phone")}
         />
         <input

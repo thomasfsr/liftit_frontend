@@ -5,7 +5,7 @@ function BackHomeButton() {
   async function handleBackHome() {
     await nav("/");
   }
-  <button onClick={handleBackHome}>Back</button>;
+  return <button onClick={handleBackHome}>Back</button>;
 }
 
 export default BackHomeButton;
